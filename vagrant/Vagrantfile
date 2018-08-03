@@ -1,0 +1,25 @@
+Vagrant.configure("2") do |config|
+BOX_CUMULUS = "cumulus-lab-3.6.2"
+
+  config.vm.define "cum-1" do |cum1|
+    cum1.vm.box = BOX_CUMULUS
+    cum1.vm.network :forwarded_port, guest: 22, host: 21201, id: 'ssh'
+    cum1.vm.network :forwarded_port, guest: 443, host: 21443, id: 'https'
+    cum1.vm.network "private_network", virtualbox__intnet: "link_1", ip: "169.254.1.11", auto_config: false
+  end
+
+  config.vm.define "cum-2" do |cum2|
+    cum2.vm.box = BOX_CUMULUS
+    cum2.vm.network :forwarded_port, guest: 22, host: 22201, id: 'ssh'
+    cum2.vm.network :forwarded_port, guest: 443, host: 22443, id: 'https'
+    cum2.vm.network "private_network", virtualbox__intnet: "link_1", ip: "169.254.1.12", auto_config: false
+    cum2.vm.network "private_network", virtualbox__intnet: "link_2", ip: "169.254.2.12", auto_config: false
+  end
+
+  config.vm.define "cum-3" do |cum3|
+    cum3.vm.box = BOX_CUMULUS
+    cum3.vm.network :forwarded_port, guest: 22, host: 23201, id: 'ssh'
+    cum3.vm.network :forwarded_port, guest: 443, host: 23443, id: 'https'
+    cum3.vm.network "private_network", virtualbox__intnet: "link_2", ip: "169.254.2.13", auto_config: false
+  end
+end

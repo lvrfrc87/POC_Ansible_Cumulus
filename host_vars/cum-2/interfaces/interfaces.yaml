@@ -1,0 +1,21 @@
+interfaces:
+  lo:
+    inet: loopback
+    ip: 2.2.2.2
+    cidr: 24
+    description: THE_SAFEST_PLACE_ON_EARTH
+  eth0:
+    inet: dhcp
+    ip:
+    cidr:
+    description: MGMT
+  swp1:
+    inet: static
+    ip: 10.0.0.0
+    cidr: 31
+    description: TO_SWP1_CUM-1
+  swp2:
+    inet: static
+    ip: 10.0.0.2
+    cidr: 31
+    description: TO_SWP1_CUM-3

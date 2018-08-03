@@ -1,0 +1,15 @@
+{% for server in ntp -%}
+  net add time ntp server {{ server }} iburst
+  {% endfor -%}
+net add time zone Europe/London
+{% for server in dns -%}
+  net add dns nameserver ipv4 {{ server }}
+  {% endfor -%}
+{% for server in syslog -%}
+  net add syslog host ipv4 {{ server }} port udp 514
+  {% endfor -%}
+  net add snmp-server system-contact {{ snmp.contact }}
+  net add snmp-server system-location {{ snmp.location }}
+{% for server in snmp.servers -%}
+  net add snmp-server readonly-community {{ snmp.community }} access {{ server }}
+  {% endfor -%}

@@ -1,0 +1,19 @@
+######################################################
+### Ansible generated config, will be overwritten! ###
+######################################################
+
+source /etc/network/interfaces.d/*.intf
+
+###############
+### General ###
+###############
+
+{% for iface, details in interfaces.items() -%}
+auto {{ iface }}
+iface {{ iface }} inet {{ details.inet }}
+    {% if details.ip is not none -%}
+    address {{ details.ip }}/{{ details.cidr}}
+    {% endif -%}
+    alias {{ details.description }}
+
+{% endfor %}

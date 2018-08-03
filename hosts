@@ -1,0 +1,21 @@
+cum-1 ansible_host=localhost ansible_port=21201
+cum-2 ansible_host=localhost ansible_port=22201
+cum-3 ansible_host=localhost ansible_port=23201
+
+[spine]
+cum-2
+[spine:vars]
+network_role=spine
+
+[leavs]
+cum-1
+cum-3
+[leavs:vars]
+network_role=leaf
+
+[all:vars]
+ansible_user=cumulus
+ansible_private_key_file=/Users/federicoolivieri/.ssh/id_rsa
+host_key_auto_add=yes
+ansible_become=yes
+timeout=60

@@ -1,0 +1,11 @@
+---
+- hosts: all
+
+  tasks:
+    - name: GENERATE CONFIG FROM TEMPLATE
+      template:
+        src: mgmt.j2
+        dest: mgmt.cfg
+      register: result_1
+    - debug:
+        var: result_1
