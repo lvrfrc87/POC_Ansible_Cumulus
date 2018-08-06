@@ -9,6 +9,7 @@
     - 172.31.8.28
   defGateway: 172.31.8.28
   snmp:
+    listening: 127.0.0.1
     servers:
       - 172.31.8.28
     community: RO

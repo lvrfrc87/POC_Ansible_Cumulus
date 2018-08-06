@@ -1,0 +1,47 @@
+openconfig_bgp:
+  bgp:
+    global:
+      config:
+        as: 65505
+        router_id: 1.1.1.1
+    neighbors:
+      10.0.0.1:
+        neighbor_address: 10.0.0.1
+        config:
+          enabled: True
+          peer_as: 65505
+          auth_password: bgpp4ssw0rd
+        graceful_restart:
+          config:
+            enabled: True
+        route_reflector:
+          config:
+            route_reflector_cluster_id: 1.1.1.1
+            route_reflector_client: 10.0.0.1
+        afi_safis:
+          afi_safi_name:
+            11:
+              ipv4_unicast:
+                prefix_limit:
+                  config:
+                    max_prefixes: 12000
+      10.0.0.3:
+        neighbor_address: 10.0.0.3
+        config:
+          enabled: True
+          peer_as: 65505
+          auth_password: bgpp4ssw0rd
+        graceful_restart:
+          config:
+            enabled: True
+        route_reflector:
+          config:
+            route_reflector_cluster_id: 1.1.1.1
+            route_reflector_client: 10.0.0.1
+        afi_safis:
+          afi_safi_name:
+            11:
+              ipv4_unicast:
+                prefix_limit:
+                  config:
+                    max_prefixes: 12000

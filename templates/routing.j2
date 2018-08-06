@@ -1,0 +1,47 @@
+frr version 4.0+cl3u3
+frr defaults datacenter
+hostname {{ inventory_hostname }}
+username cumulus nopassword
+!
+service integrated-vtysh-config
+!
+log syslog informational
+!
+{% for iface, details in interfaces.items() -%}
+interface {{ iface }}
+ description {{ details.description }}
+!
+{% endfor -%}
+{% for bgpGlobal in openconfig_bgp.bgp.global.values() -%}
+router-id {{ bgpGlobal.router_id }}
+!
+router bgp {{ bgpGlobal.as }}
+{% endfor -%}
+{% for bgpNeighb, neighOpts in openconfig_bgp.bgp.neighbors.items() -%}
+{% set rr = neighOpts.route_reflector.config -%}
+ bgp cluster-id {{ rr.route_reflector_cluster_id}}
+ neighbor {{ bgpNeighb }} remote-as {{ neighOpts.config.peer_as }}
+ neighbor {{ bgpNeighb }} password {{ neighOpts.config.auth_password }}
+ !
+ address-family ipv4 unicast
+  {% if neighOpts.config.enabled == false -%}
+  no neighbor {{ bgpNeighb }} activate
+  {% endif -%}
+  {% set rr = neighOpts.route_reflector.config -%}
+  neighbor {{ rr.route_reflector_client }} route-reflector-client
+  neighbor {{ bgpNeighb }} soft-reconfiguration inbound
+ exit-address-family
+!
+{% endfor -%}
+router ospf
+ passive-interface default
+ {% for network in custom_ospf -%}
+ no passive-interface {{ network.network.interface }}
+ {% for iface, details in interfaces.items() -%}
+ {% if network.network.interface in iface -%}
+ {% if details.ip is not none -%}
+ network {{ details.ip }}/{{ details.cidr }} area {{ network.network.area }}
+ {% endif -%}{% endif -%}{% endfor -%}{% endfor -%}
+!
+line vty
+!

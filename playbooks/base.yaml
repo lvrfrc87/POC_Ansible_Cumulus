@@ -1,0 +1,45 @@
+---
+- hosts: all
+  gather_facts: False
+
+  tasks:
+    - name: interfaces configuration
+      template:
+        src: ../templates/interfaces.j2
+        dest: /etc/network/interfaces
+        backup: yes
+      notify: reload interfaces
+
+    - name: ntp.conf configuration
+      template:
+        src: ../templates/ntp.j2
+        dest: /etc/ntp.conf
+        backup: yes
+      notify: reload ntp
+
+    - name: resolv.conf configuration
+      template:
+        src: ../templates/dns.j2
+        dest: /etc/resolv.conf
+        backup: yes
+
+    - name: snmpd.conf configuration
+      template:
+        src: ../templates/snmp.j2
+        dest: /etc/snmp/snmpd.conf
+        backup: yes
+      notify: reload snmp
+
+  handlers:
+    - name: reload interfaces
+      command: "ifreload -a"
+
+    - name: reload ntp
+      service:
+        name: ntp
+        state: restarted
+
+    - name: reload snmp
+      service:
+        name: snmpd
+        state: restarted

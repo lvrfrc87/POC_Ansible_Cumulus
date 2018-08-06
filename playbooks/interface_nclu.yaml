@@ -10,11 +10,11 @@
         var: facts
 
 
-    - name: ADD INTERFACE DESCRIPTION
-      nclu:
-        commands:
-          - add interface eth0 alias //--VBOX_MGMT--//
-        commit: true
-      register: result_1
-    - debug:
-        var: result_1
+    # - name: ADD INTERFACE DESCRIPTION
+    #   nclu:
+    #     commands:
+    #       - add interface eth0 alias //--VBOX_MGMT--//
+    #     commit: true
+    #   register: result_1
+    # - debug:
+    #     var: result_1
