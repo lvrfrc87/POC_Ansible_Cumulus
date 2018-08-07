@@ -1,0 +1,16 @@
+openconfig_bgp:
+  bgp:
+    global:
+      config:
+        as: 65505
+        router_id: 1.1.1.1
+    neighbors:
+      10.0.0.0:
+        neighbor_address: 10.0.0.0
+        config:
+          enabled: True
+          peer_as: 65505
+          auth_password: bgpp4ssw0rd
+        graceful_restart:
+          config:
+            enabled: True

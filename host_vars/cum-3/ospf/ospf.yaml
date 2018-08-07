@@ -1,0 +1,4 @@
+custom_ospf:
+  - network:
+      interface: swp1
+      area: 0

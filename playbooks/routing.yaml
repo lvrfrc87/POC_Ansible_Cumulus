@@ -1,0 +1,17 @@
+---
+- hosts: all
+  gather_facts: False
+
+  tasks:
+    - name: routing configuration
+      template:
+        src: ../templates/routing.j2
+        dest: /etc/frr//frr.conf
+        backup: yes
+      notify: reload frr
+
+  handlers:
+    - name: reload frr
+      service:
+        name: frr
+        state: reloaded
