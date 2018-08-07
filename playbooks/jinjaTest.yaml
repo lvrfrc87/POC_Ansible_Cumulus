@@ -1,7 +1,9 @@
 ---
-- hosts: cum-2
+- hosts: all
   gather_facts: false
 
   tasks:
   - name: Test jinja2template
     template: src=../templates/routing.j2 dest=test.conf
+
+# ansible-playbook  cumulus/playbooks/jinjaTest.yaml -i cumulus/hosts --check --diff --connection=local --vault-password-file ~/.vault

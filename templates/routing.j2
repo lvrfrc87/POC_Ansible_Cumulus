@@ -18,8 +18,10 @@ router-id {{ bgpGlobal.router_id }}
 router bgp {{ bgpGlobal.as }}
 {% endfor -%}
 {% for bgpNeighb, neighOpts in openconfig_bgp.bgp.neighbors.items() -%}
+{% if neighOpts.route_reflector is defined -%}
 {% set rr = neighOpts.route_reflector.config -%}
  bgp cluster-id {{ rr.route_reflector_cluster_id}}
+{% endif -%}
  neighbor {{ bgpNeighb }} remote-as {{ neighOpts.config.peer_as }}
  neighbor {{ bgpNeighb }} password {{ neighOpts.config.auth_password }}
  !
@@ -27,9 +29,13 @@ router bgp {{ bgpGlobal.as }}
   {% if neighOpts.config.enabled == false -%}
   no neighbor {{ bgpNeighb }} activate
   {% endif -%}
+  {% for rrNeigh in neighOpts -%}
+  {% if neighOpts.route_reflector is defined -%}
   {% set rr = neighOpts.route_reflector.config -%}
   neighbor {{ rr.route_reflector_client }} route-reflector-client
+  {% endif -%}{% endfor -%}
   neighbor {{ bgpNeighb }} soft-reconfiguration inbound
+  network {{ interfaces.lo.ip }}/{{ interfaces.lo.cidr }}
  exit-address-family
 !
 {% endfor -%}
