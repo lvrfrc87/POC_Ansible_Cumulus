@@ -3,6 +3,13 @@
   gather_facts: False
 
   tasks:
+    - name: enable quagga
+      template:
+        src: ../templates/quagga.j2
+        dest: /etc/frr/daemons
+        backup: no
+      notify: reload frr
+
     - name: routing configuration
       template:
         src: ../templates/routing.j2

@@ -19,3 +19,8 @@ interfaces:
     ip: 10.0.0.2
     cidr: 31
     description: TO_SWP1_CUM-3
+  swp3:
+    inet: static
+    ip: 10.0.0.4
+    cidr: 31
+    description: TO_SWP1_CUM-4

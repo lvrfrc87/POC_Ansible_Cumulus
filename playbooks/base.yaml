@@ -3,6 +3,21 @@
   gather_facts: False
 
   tasks:
+
+    - name: hsotname configuration
+      nclu:
+        commands:
+          - add hostname {{ inventory_hostname }}
+        commit: true
+        description: "Ansible - Hostname Configured"
+
+    - name: snmpd.conf configuration
+      template:
+        src: ../templates/snmp.j2
+        dest: /etc/snmp/snmpd.conf
+        backup: yes
+      notify: reload snmp
+
     - name: interfaces configuration
       template:
         src: ../templates/interfaces.j2

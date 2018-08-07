@@ -29,11 +29,10 @@ router bgp {{ bgpGlobal.as }}
   {% if neighOpts.config.enabled == false -%}
   no neighbor {{ bgpNeighb }} activate
   {% endif -%}
-  {% for rrNeigh in neighOpts -%}
   {% if neighOpts.route_reflector is defined -%}
   {% set rr = neighOpts.route_reflector.config -%}
   neighbor {{ rr.route_reflector_client }} route-reflector-client
-  {% endif -%}{% endfor -%}
+  {% endif -%}
   neighbor {{ bgpNeighb }} soft-reconfiguration inbound
   network {{ interfaces.lo.ip }}/{{ interfaces.lo.cidr }}
  exit-address-family

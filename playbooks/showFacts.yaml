@@ -1,0 +1,10 @@
+---
+- hosts: cum-1
+  gather_facts: True
+
+  tasks:
+    - setup:
+        filter: ansible_*
+      register: facts
+    - debug:
+        var: facts
